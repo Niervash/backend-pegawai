@@ -1,4 +1,4 @@
-# Backend SIMPEG (Sistem Informasi Manajemen Kepegawaian)
+# Backend Pegawai
 
 Backend ini dibangun menggunakan **Node.js**, **Express**, **TypeScript**, dan **Sequelize ORM** dengan database **MySQL**.
 
