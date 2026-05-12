@@ -41,7 +41,7 @@ Sebelum menjalankan proyek ini, pastikan Anda telah menginstal:
    DB_HOST=localhost
    DB_USER=root
    DB_PASSWORD=password_anda
-   DB_NAME=simpeg_db
+   DB_NAME=nama_db
    DB_PORT=3306
    JWT_SECRET=rahasia_anda
    PORT=5000
