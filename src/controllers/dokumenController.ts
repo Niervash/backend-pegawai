@@ -15,7 +15,7 @@ export const getAllDokumen = async (req: Request, res: Response) => {
 export const createDokumen = async (req: any, res: Response) => {
     try {
         const { name } = req.body;
-        const file_url = req.file?.savedPath;
+        const file_url = req.file?.path;
         
         if (!file_url) {
             return res.status(400).json({ success: false, message: 'File is required' });

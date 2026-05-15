@@ -46,7 +46,7 @@ export const processUpload = async (req: any, res: Response, next: NextFunction)
 //      }
 
         // Attach the saved file path to req object
-        req.file.savedPath = `/uploads/${fileName}`;
+        req.file.path = `/uploads/${fileName}`;
         next();
     } catch (error) {
         next(error);

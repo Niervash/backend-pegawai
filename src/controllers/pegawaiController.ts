@@ -86,7 +86,7 @@ export const getPegawaiById = async (req: Request, res: Response) => {
 };
 
 
-export const createPegawai = async (req: Request, res: Response) => {
+export const createPegawai = async (req: any, res: Response) => {
     try {
         const { 
             golongan, jabatan, unitKerja, 
@@ -119,7 +119,8 @@ export const createPegawai = async (req: Request, res: Response) => {
             tanggal_masuk: tanggalMasuk,
             golongan_id: final_golongan_id,
             jabatan_id: final_jabatan_id,
-            unit_kerja_id: final_unit_kerja_id
+            unit_kerja_id: final_unit_kerja_id,
+            avatar: req.file?.path
         });
 
         // Re-fetch to get includes
@@ -137,7 +138,7 @@ export const createPegawai = async (req: Request, res: Response) => {
     }
 };
 
-export const updatePegawai = async (req: Request, res: Response) => {
+export const updatePegawai = async (req: any, res: Response) => {
     try {
         const { id } = req.params;
         const { 
@@ -176,8 +177,19 @@ export const updatePegawai = async (req: Request, res: Response) => {
         if (final_golongan_id) updateData.golongan_id = final_golongan_id;
         if (final_jabatan_id) updateData.jabatan_id = final_jabatan_id;
         if (final_unit_kerja_id) updateData.unit_kerja_id = final_unit_kerja_id;
+        if (req.file?.path) updateData.avatar = req.file.path;
 
         await pegawai.update(updateData);
+
+        // Sync with User if exists
+        await User.update(
+            { 
+                name: updateData.nama || pegawai.nama,
+                email: updateData.email || pegawai.email,
+                avatar: updateData.avatar || pegawai.avatar
+            },
+            { where: { nip: pegawai.nip } }
+        );
         
         const updatedData = await Pegawai.findByPk(id as string, {
             include: [
@@ -193,10 +205,6 @@ export const updatePegawai = async (req: Request, res: Response) => {
         res.status(400).json({ success: false, message: error.message });
     }
 };
-
-
-
-
 
 export const deletePegawai = async (req: Request, res: Response) => {
     try {
@@ -266,4 +274,3 @@ export const createAccountForPegawai = async (req: Request, res: Response) => {
         res.status(400).json({ success: false, message: error.message });
     }
 };
-
