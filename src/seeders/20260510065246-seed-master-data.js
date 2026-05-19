@@ -2,6 +2,11 @@
 
 module.exports = {
   up: async (queryInterface, Sequelize) => {
+    // Bersihkan data lama untuk menghindari unique constraint error
+    await queryInterface.bulkDelete('master_golongan', null, {});
+    await queryInterface.bulkDelete('master_jabatan', null, {});
+    await queryInterface.bulkDelete('master_unit_kerja', null, {});
+
     // 1. Master Golongan (Standar PNS Indonesia)
     await queryInterface.bulkInsert('master_golongan', [
       { kode: 'I/a', nama: 'Juru Muda', ruang: 'a' },

@@ -5,6 +5,9 @@ module.exports = {
   up: async (queryInterface, Sequelize) => {
     const hashedPassword = await bcrypt.hash('password', 10);
     
+    // Bersihkan data lama
+    await queryInterface.bulkDelete('users', null, {});
+    
     await queryInterface.bulkInsert('users', [
       {
         name: 'Demo Admin',

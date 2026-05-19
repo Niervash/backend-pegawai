@@ -8,6 +8,10 @@ const startServer = async () => {
         await sequelize.authenticate();
         console.log('✅ Database connected successfully.');
         
+        // Menyingkronkan model dengan database (membuat tabel jika belum ada)
+        await sequelize.sync();
+        console.log('✅ Database models synchronized.');
+        
         app.listen(PORT, () => {
             console.log(`🚀 Server is running on port ${PORT}`);
         });
